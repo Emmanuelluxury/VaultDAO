@@ -11000,7 +11000,6 @@ fn test_public_api_consistency_after_multiple_mutations() {
     assert_eq!(config_result.threshold, 3);
 }
 
-
 // ============================================================================
 // Metrics Query Tests (feature/metrics-valuation-query-hardening)
 // ============================================================================
@@ -11273,7 +11272,10 @@ fn test_metrics_average_execution_time() {
     // Execution time is recorded as u64, so it's always >= 0
     let _ = metrics.total_execution_time_ledgers;
     assert_eq!(metrics.executed_count, 1);
-    assert_eq!(metrics.avg_execution_time_ledgers(), metrics.total_execution_time_ledgers);
+    assert_eq!(
+        metrics.avg_execution_time_ledgers(),
+        metrics.total_execution_time_ledgers
+    );
 }
 
 // ============================================================================
@@ -11487,11 +11489,14 @@ fn test_portfolio_valuation_saturating_arithmetic() {
 
     // With oracle configured, large amounts should saturate safely
     let oracle_addr = Address::generate(&env);
-    client.update_oracle_config(&admin, &crate::VaultOracleConfig {
-        address: oracle_addr,
-        base_symbol: Symbol::new(&env, "USD"),
-        max_staleness: 1000,
-    });
+    client.update_oracle_config(
+        &admin,
+        &crate::VaultOracleConfig {
+            address: oracle_addr,
+            base_symbol: Symbol::new(&env, "USD"),
+            max_staleness: 1000,
+        },
+    );
 
     // Note: This test would need oracle mock to fully validate
     // For now, we verify the function signature accepts large values
